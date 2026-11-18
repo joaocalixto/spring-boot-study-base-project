@@ -1,0 +1,230 @@
+{
+  "info": {
+    "name": "spring-boot-study-base-project",
+    "description": "Requisições do projeto base de estudo (Spring Boot 4).\n\nAntes de usar:\n1. `docker compose up -d postgres`\n2. `./mvnw spring-boot:run`\n\nA variável `baseUrl` da collection aponta para http://localhost:8080.\nCada requisição tem testes (aba Tests) que conferem o status e o corpo da resposta.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "userId", "value": "1" },
+    { "key": "githubUser", "value": "torvalds" }
+  ],
+  "item": [
+    {
+      "name": "Users (versionamento de API)",
+      "description": "Mesma URL, duas versões. A versão é escolhida pelo header X-API-Version. Sem o header, vale a versão 1.",
+      "item": [
+        {
+          "name": "Buscar usuário — v1 (sem header)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/users/{{userId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('formato v1: tem name, não tem firstName', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('name');",
+                  "  pm.expect(body).to.not.have.property('firstName');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar usuário — v2 (header X-API-Version: 2)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "X-API-Version", "value": "2" }
+            ],
+            "url": "{{baseUrl}}/api/users/{{userId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('formato v2: firstName, lastName e avatarUrl', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('firstName');",
+                  "  pm.expect(body).to.have.property('lastName');",
+                  "  pm.expect(body).to.have.property('avatarUrl');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar usuário inexistente — 404",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/users/999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GitHub (HTTP client declarativo)",
+      "description": "A aplicação chama a API pública do GitHub usando a interface GitHubClient. Precisa de internet. Sem token, o GitHub limita a 60 chamadas por hora.",
+      "item": [
+        {
+          "name": "Buscar usuário do GitHub",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/github/{{githubUser}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('login é o usuário pedido', () => {",
+                  "  pm.expect(pm.response.json().login).to.eql(pm.collectionVariables.get('githubUser'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar repositórios do usuário",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/github/{{githubUser}}/repos"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('retorna uma lista', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Spring AI",
+      "description": "Precisa da variável de ambiente OPENAI_API_KEY definida ANTES de subir a aplicação. Sem ela, esta requisição falha (erro 500).",
+      "item": [
+        {
+          "name": "Chat",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"O que é Spring Boot 4 em uma frase?\"\n}"
+            },
+            "url": "{{baseUrl}}/api/chat"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('tem resposta', () => pm.expect(pm.response.json().reply).to.be.a('string').and.not.empty);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Actuator (saúde e banco)",
+      "item": [
+        {
+          "name": "Health (inclui o banco)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/actuator/health"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('banco UP', () => pm.expect(pm.response.json().components.db.status).to.eql('UP'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Liquibase — changesets aplicados",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/actuator/liquibase"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('tem o changeset da tabela users', () => {",
+                  "  const ids = JSON.stringify(pm.response.json());",
+                  "  pm.expect(ids).to.include('001-create-users-table');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Thread dump (ver virtual threads)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/actuator/threaddump"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

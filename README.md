@@ -43,6 +43,32 @@ As tabelas **não** são criadas pelo Docker nem pelo Hibernate: quem cria é o 
 
 Zerar o banco: `docker compose down -v && docker compose up -d postgres`.
 
+### Ver as tabelas
+
+**Pelo pgAdmin (navegador):**
+
+```bash
+docker compose up -d pgadmin
+```
+
+1. Abra http://localhost:5050 (não pede login).
+2. No menu da esquerda: **Aula Spring Boot 4 → demo-postgres (local)**. Ele conecta sozinho, sem pedir senha.
+3. Vá em **Databases → demo → Schemas → public → Tables**.
+4. Clique em `users` e depois no ícone de tabela no topo (**View Data → All Rows**).
+
+![pgAdmin mostrando a tabela users](docs/img/pgadmin-tabela-users.jpg)
+
+As tabelas `databasechangelog` e `databasechangeloglock` são do próprio Liquibase (controle do que já rodou).
+
+> Mudou `docker/pgadmin/servers.json`? O pgAdmin só lê esse arquivo na primeira vez.
+> Para recarregar: `docker compose rm -sf pgadmin && docker volume rm $(basename "$PWD")_pgadmin_data && docker compose up -d pgadmin`.
+
+**Pelo terminal:**
+
+```bash
+docker exec -it demo-postgres psql -U demo -d demo -c '\dt' -c 'select * from users'
+```
+
 ## Endpoints
 
 ```bash
@@ -64,6 +90,12 @@ curl -X POST http://localhost:8080/api/chat \
 curl http://localhost:8080/actuator/health
 curl http://localhost:8080/actuator/liquibase
 ```
+
+### Postman
+
+Importe `postman/spring-boot-study-base-project.postman_collection.json` no Postman
+(**Import → arquivo**). Todas as requisições acima estão lá, separadas por pasta, com testes
+que conferem o status e o corpo da resposta. Para rodar tudo de uma vez: clique na collection → **Run**.
 
 ## Testar
 

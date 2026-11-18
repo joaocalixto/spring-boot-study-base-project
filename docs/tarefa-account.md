@@ -106,3 +106,7 @@ Erros:
 
 Uma branch `feature/account` com um Pull Request para `main`. Na descrição do PR:
 como rodar, os `curl` usados para testar e qualquer decisão que você tomou.
+
+Adicione também uma pasta **Accounts** na collection do Postman
+(`postman/spring-boot-study-base-project.postman_collection.json`), com uma requisição por endpoint
+e testes de status, no mesmo padrão das pastas que já existem.
