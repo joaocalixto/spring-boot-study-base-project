@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-insert-sample-users
+      author: joao
+      # Dados de exemplo: só rodam com o context "dev" (ver spring.liquibase.contexts).
+      # Em produção esse changeset é ignorado.
+      context: dev
+      comment: Usuários de exemplo para a aula
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: first_name, value: Beatriz }
+              - column: { name: last_name,  value: Lima }
+              - column: { name: email,      value: bea@example.com }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: first_name, value: Joao }
+              - column: { name: last_name,  value: Calixto }
+              - column: { name: email,      value: joao@example.com }
+              - column: { name: phone,      value: "+55 11 99999-0000" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: first_name, value: Ada }
+              - column: { name: last_name,  value: Lovelace }
+              - column: { name: email,      value: ada@analytical.eng }
+      # insert NÃO tem rollback automático: dizemos ao Liquibase como desfazer.
+      rollback:
+        - delete:
+            tableName: users
+            where: email IN ('bea@example.com', 'joao@example.com', 'ada@analytical.eng')

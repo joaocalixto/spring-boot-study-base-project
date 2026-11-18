@@ -1,13 +1,19 @@
 services:
+  # Banco da aplicação.
+  # O Docker só cria o banco VAZIO. Tabelas e dados são criados pelo Liquibase
+  # quando a aplicação sobe (src/main/resources/db/changelog).
   postgres:
-    build: ./docker/postgres
+    image: pgvector/pgvector:pg17   # Postgres 17 + extensão pgvector (para as aulas de Spring AI)
     container_name: bea-postgres
     environment:
       POSTGRES_DB: beademo
       POSTGRES_USER: bea
       POSTGRES_PASSWORD: bea123
+      TZ: America/Sao_Paulo
     ports:
-      - "5432:5432"
+      # 5433 no seu computador -> 5432 dentro do container.
+      # Usamos 5433 para não brigar com um Postgres que já esteja instalado na máquina.
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -16,6 +22,7 @@ services:
       timeout: 3s
       retries: 10
 
+  # Interface web para olhar o banco: http://localhost:5050
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: bea-pgadmin
@@ -25,13 +32,13 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: bea@example.com
       PGADMIN_DEFAULT_PASSWORD: bea123
-      PGADMIN_CONFIG_SERVER_MODE: "False"          # modo desktop, ja logado
+      PGADMIN_CONFIG_SERVER_MODE: "False"          # modo desktop, já logado
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     ports:
       - "5050:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
-      # Pre-configura a conexao com o Postgres ja aberta
+      # Conexão com o Postgres já cadastrada (dentro da rede do Docker a porta é 5432)
       - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
       - ./docker/pgadmin/pgpass:/pgpass:ro
     entrypoint: >
@@ -41,6 +48,7 @@ services:
       /entrypoint.sh
       "
 
+  # Traces do OpenTelemetry: http://localhost:16686
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: bea-jaeger
