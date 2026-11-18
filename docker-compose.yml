@@ -40,12 +40,15 @@ services:
       - pgadmin_data:/var/lib/pgadmin
       # Conexão com o Postgres já cadastrada (dentro da rede do Docker a porta é 5432)
       - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
-      - ./docker/pgadmin/pgpass:/pgpass:ro
+      - ./docker/pgadmin/pgpass:/pgpass-src:ro
+    # O Postgres só aceita o arquivo de senha se ele tiver permissão 600.
+    # Como o arquivo montado é somente leitura, copiamos para dentro do container
+    # e ajustamos a permissão lá, antes de iniciar o pgAdmin.
     entrypoint: >
       /bin/sh -c "
-      chmod 600 /pgpass;
-      chown pgadmin:root /pgpass;
-      /entrypoint.sh
+      cp /pgpass-src /var/lib/pgadmin/pgpass &&
+      chmod 600 /var/lib/pgadmin/pgpass &&
+      exec /entrypoint.sh
       "
 
   # Traces do OpenTelemetry: http://localhost:16686
