@@ -127,7 +127,7 @@ spring:
         header: X-API-Version
       # alternativas: path-segment, query-param, media-type
       required: false
-      default-version: "1"
+      default: "1"
 ```
 
 **Estratégias suportadas:**

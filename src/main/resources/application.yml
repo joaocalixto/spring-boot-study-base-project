@@ -32,8 +32,8 @@ spring:
       use:
         header: X-API-Version
       required: false
-      default-version: "1"
-      supported-versions:
+      default: "1"          # versão usada quando o cliente não manda o header
+      supported:
         - "1"
         - "2"
 
