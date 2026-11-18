@@ -53,7 +53,7 @@ Neste projeto:
 2. **Um changeset = uma mudança pequena.** Se falhar no meio, fica fácil entender e corrigir.
 3. **Um arquivo por mudança, com número na frente** (`003-create-account-table.yaml`)
    e inclua no master **explicitamente**, na ordem. Evite `includeAll`: a ordem fica implícita.
-4. **`id` descritivo e `author` real.** Ex.: `id: 003-create-account-table`, `author: bea`.
+4. **`id` descritivo e `author` real.** Ex.: `id: 003-create-account-table`, `author: seu-nome`.
 5. **Dê nome às constraints** (`pk_account`, `uk_account_number`, `fk_account_user`).
    Nome gerado pelo banco é diferente em cada ambiente e atrapalha migrações futuras.
 6. **Pense no rollback.** `createTable` e `addColumn` desfazem sozinhos.
@@ -83,7 +83,7 @@ docker compose down -v                 # para E APAGA os dados (banco volta a fi
 Entrar no banco pelo terminal:
 
 ```bash
-docker exec -it bea-postgres psql -U bea -d beademo
+docker exec -it demo-postgres psql -U demo -d demo
 ```
 
 Dentro do `psql`:

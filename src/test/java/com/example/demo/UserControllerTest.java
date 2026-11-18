@@ -23,14 +23,14 @@ class UserControllerTest {
     void retornaV1QuandoNaoHaHeader() throws Exception {
         mvc.perform(get("/api/users/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Beatriz Lima"));
+                .andExpect(jsonPath("$.name").value("Maria Lima"));
     }
 
     @Test
     void retornaV2ComHeader() throws Exception {
         mvc.perform(get("/api/users/1").header("X-API-Version", "2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value("Beatriz"))
+                .andExpect(jsonPath("$.firstName").value("Maria"))
                 .andExpect(jsonPath("$.lastName").value("Lima"))
                 .andExpect(jsonPath("$.avatarUrl").exists());
     }

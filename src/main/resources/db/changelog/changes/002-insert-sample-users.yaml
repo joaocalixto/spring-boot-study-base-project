@@ -10,9 +10,9 @@ databaseChangeLog:
         - insert:
             tableName: users
             columns:
-              - column: { name: first_name, value: Beatriz }
+              - column: { name: first_name, value: Maria }
               - column: { name: last_name,  value: Lima }
-              - column: { name: email,      value: bea@example.com }
+              - column: { name: email,      value: maria@example.com }
         - insert:
             tableName: users
             columns:
@@ -30,4 +30,4 @@ databaseChangeLog:
       rollback:
         - delete:
             tableName: users
-            where: email IN ('bea@example.com', 'joao@example.com', 'ada@analytical.eng')
+            where: email IN ('maria@example.com', 'joao@example.com', 'ada@analytical.eng')

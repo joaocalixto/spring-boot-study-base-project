@@ -34,8 +34,8 @@ Para o chat com IA, antes do passo 2: `export OPENAI_API_KEY=sk-...`
 | | |
 |---|---|
 | Host / porta | `localhost:5433` |
-| Banco | `beademo` |
-| Usuário / senha | `bea` / `bea123` |
+| Banco | `demo` |
+| Usuário / senha | `demo` / `demo123` |
 | pgAdmin (opcional) | `docker compose up -d pgadmin` → http://localhost:5050 |
 
 As tabelas **não** são criadas pelo Docker nem pelo Hibernate: quem cria é o Liquibase, a partir de

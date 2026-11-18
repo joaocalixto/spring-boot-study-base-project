@@ -1,6 +1,6 @@
 # Tutorial: Bootiful Spring Boot 4
 
-> Tutorial guiado para Beatriz, baseado na palestra do Josh Long na Spring I/O 2026.
+> Tutorial guiado, baseado na palestra do Josh Long na Spring I/O 2026.
 > Pré-requisito: você já conhece Spring Boot 3.x, REST, JPA e injeção de dependência.
 
 ---
@@ -220,7 +220,7 @@ otel:
     otlp:
       endpoint: http://localhost:4317
   service:
-    name: bea-demo
+    name: demo
 ```
 
 Sem agente Java, sem hack. Métricas, traces e logs em OTLP nativo.
@@ -300,7 +300,7 @@ Você "fotografa" a JVM já quentinha e restaura em milissegundos. Boot 4 tem ho
 
 ---
 
-## 10. Roadmap pessoal pra Beatriz
+## 10. Roadmap pessoal
 
 Ordem recomendada de adoção em um projeto real:
 

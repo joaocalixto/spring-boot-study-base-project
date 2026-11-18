@@ -4,11 +4,11 @@ services:
   # quando a aplicação sobe (src/main/resources/db/changelog).
   postgres:
     image: pgvector/pgvector:pg17   # Postgres 17 + extensão pgvector (para as aulas de Spring AI)
-    container_name: bea-postgres
+    container_name: demo-postgres
     environment:
-      POSTGRES_DB: beademo
-      POSTGRES_USER: bea
-      POSTGRES_PASSWORD: bea123
+      POSTGRES_DB: demo
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo123
       TZ: America/Sao_Paulo
     ports:
       # 5433 no seu computador -> 5432 dentro do container.
@@ -17,7 +17,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U bea -d beademo"]
+      test: ["CMD-SHELL", "pg_isready -U demo -d demo"]
       interval: 5s
       timeout: 3s
       retries: 10
@@ -25,13 +25,13 @@ services:
   # Interface web para olhar o banco: http://localhost:5050
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: bea-pgadmin
+    container_name: demo-pgadmin
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      PGADMIN_DEFAULT_EMAIL: bea@example.com
-      PGADMIN_DEFAULT_PASSWORD: bea123
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: demo123
       PGADMIN_CONFIG_SERVER_MODE: "False"          # modo desktop, já logado
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     ports:
@@ -51,7 +51,7 @@ services:
   # Traces do OpenTelemetry: http://localhost:16686
   jaeger:
     image: jaegertracing/all-in-one:latest
-    container_name: bea-jaeger
+    container_name: demo-jaeger
     ports:
       - "16686:16686"   # UI
       - "4317:4317"     # OTLP gRPC

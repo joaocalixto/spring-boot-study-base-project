@@ -1,6 +1,6 @@
 spring:
   application:
-    name: bea-demo
+    name: demo
 
   # Virtual threads ligados (Project Loom)
   threads:
@@ -10,9 +10,9 @@ spring:
   # Conexão com o Postgres do docker-compose (porta 5433 no seu computador).
   # Dá para trocar por variáveis de ambiente sem mexer no arquivo.
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5433/beademo}
-    username: ${DB_USER:bea}
-    password: ${DB_PASSWORD:bea123}
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/demo}
+    username: ${DB_USER:demo}
+    password: ${DB_PASSWORD:demo123}
 
   jpa:
     # Quem cria e altera tabelas é o Liquibase.
@@ -49,7 +49,7 @@ spring:
 # OpenTelemetry
 otel:
   service:
-    name: bea-demo
+    name: demo
   exporter:
     otlp:
       endpoint: http://localhost:4317
