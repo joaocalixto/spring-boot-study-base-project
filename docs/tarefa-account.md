@@ -19,7 +19,7 @@ Use `users` como modelo. Os arquivos de referência são:
 | Entidade JPA | `entity/UserEntity.java` |
 | Repository | `repository/UserRepository.java` |
 | Service | `service/UserService.java` |
-| Controller | `api/v1/UserController.java` |
+| Controller | `controller/UserController.java` |
 | DTOs (o que a API recebe/devolve) | `model/User.java`, `model/UserV2.java` |
 | Testes | `UserControllerTest.java`, `LiquibaseMigrationTest.java` |
 
@@ -59,7 +59,7 @@ Crie também `004-insert-sample-accounts.yaml` com **2 contas de exemplo** (`con
 4. **Service** `AccountService` com as regras:
    - não deixar criar conta para usuário que não existe;
    - não deixar repetir o número da conta.
-5. **Controller** `AccountController` em `/api/accounts`.
+5. **Controller** `AccountController` no pacote `controller`, em `/api/accounts`.
 
 ---
 
