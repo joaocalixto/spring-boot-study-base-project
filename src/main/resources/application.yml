@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: bea-demo
+
+  # Virtual threads ligados (Project Loom)
+  threads:
+    virtual:
+      enabled: true
+
+  # API Versioning nativo
+  mvc:
+    apiversion:
+      use:
+        header: X-API-Version
+      required: false
+      default-version: "1"
+      supported-versions:
+        - "1"
+        - "2"
+
+  # Spring AI - OpenAI
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:dummy}
+      chat:
+        options:
+          model: gpt-4o-mini
+          temperature: 0.7
+
+# OpenTelemetry
+otel:
+  service:
+    name: bea-demo
+  exporter:
+    otlp:
+      endpoint: http://localhost:4317
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,threaddump
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.example.demo: DEBUG

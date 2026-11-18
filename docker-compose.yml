@@ -1,0 +1,56 @@
+services:
+  postgres:
+    build: ./docker/postgres
+    container_name: bea-postgres
+    environment:
+      POSTGRES_DB: beademo
+      POSTGRES_USER: bea
+      POSTGRES_PASSWORD: bea123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bea -d beademo"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: bea-pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: bea@example.com
+      PGADMIN_DEFAULT_PASSWORD: bea123
+      PGADMIN_CONFIG_SERVER_MODE: "False"          # modo desktop, ja logado
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      # Pre-configura a conexao com o Postgres ja aberta
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
+      - ./docker/pgadmin/pgpass:/pgpass:ro
+    entrypoint: >
+      /bin/sh -c "
+      chmod 600 /pgpass;
+      chown pgadmin:root /pgpass;
+      /entrypoint.sh
+      "
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: bea-jaeger
+    ports:
+      - "16686:16686"   # UI
+      - "4317:4317"     # OTLP gRPC
+      - "4318:4318"     # OTLP HTTP
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+
+volumes:
+  postgres_data:
+  pgadmin_data:
