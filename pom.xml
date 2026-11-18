@@ -10,9 +10,9 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>bea-demo</artifactId>
+    <artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bea-demo</name>
+    <name>demo</name>
     <description>Aula Spring Boot 4 — Bootiful Spring Boot 4</description>
 
     <properties>

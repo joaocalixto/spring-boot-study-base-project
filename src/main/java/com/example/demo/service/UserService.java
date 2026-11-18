@@ -13,7 +13,7 @@ import java.util.Map;
 public class UserService {
 
     private final Map<Long, User> store = Map.of(
-            1L, new User(1L, "Beatriz Lima", "bea@example.com", null),
+            1L, new User(1L, "Maria Lima", "maria@example.com", null),
             2L, new User(2L, "Joao Calixto", "joao@example.com", "+55 11 99999-0000")
     );
 

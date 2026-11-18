@@ -27,7 +27,7 @@ class UserControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.name").isEqualTo("Beatriz Lima");
+                .jsonPath("$.name").isEqualTo("Maria Lima");
     }
 
     @Test
@@ -39,7 +39,7 @@ class UserControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.firstName").isEqualTo("Beatriz")
+                .jsonPath("$.firstName").isEqualTo("Maria")
                 .jsonPath("$.lastName").isEqualTo("Lima")
                 .jsonPath("$.avatarUrl").exists();
     }

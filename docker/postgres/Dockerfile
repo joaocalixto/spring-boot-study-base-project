@@ -3,9 +3,9 @@
 FROM pgvector/pgvector:pg17
 
 # Variaveis padrao (podem ser sobrescritas no docker-compose / -e)
-ENV POSTGRES_DB=beademo \
-    POSTGRES_USER=bea \
-    POSTGRES_PASSWORD=bea123 \
+ENV POSTGRES_DB=demo \
+    POSTGRES_USER=demo \
+    POSTGRES_PASSWORD=demo123 \
     TZ=America/Sao_Paulo \
     LANG=pt_BR.utf8
 

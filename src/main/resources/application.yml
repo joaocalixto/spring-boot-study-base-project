@@ -1,6 +1,6 @@
 spring:
   application:
-    name: bea-demo
+    name: demo
 
   # Virtual threads ligados (Project Loom)
   threads:
@@ -30,7 +30,7 @@ spring:
 # OpenTelemetry
 otel:
   service:
-    name: bea-demo
+    name: demo
   exporter:
     otlp:
       endpoint: http://localhost:4317

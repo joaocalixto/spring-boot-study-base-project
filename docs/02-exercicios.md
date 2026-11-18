@@ -125,9 +125,9 @@ Use o `MessageChatMemoryAdvisor` para que o chat lembre de mensagens anteriores 
 **Aceite:**
 
 ```bash
-curl -X POST /api/chat/abc123 -d '{"message":"Meu nome e Bea"}'
+curl -X POST /api/chat/abc123 -d '{"message":"Meu nome e Maria"}'
 curl -X POST /api/chat/abc123 -d '{"message":"Qual e meu nome?"}'
-# responde "Bea"
+# responde "Maria"
 ```
 
 ### 5.3. Tool calling
@@ -167,9 +167,9 @@ Gere o arquivo de archive e rode com ele:
 
 ```bash
 ./mvnw package
-java -XX:ArchiveClassesAtExit=app.jsa -jar target/bea-demo-0.0.1-SNAPSHOT.jar
+java -XX:ArchiveClassesAtExit=app.jsa -jar target/demo-0.0.1-SNAPSHOT.jar
 # Ctrl+C
-java -XX:SharedArchiveFile=app.jsa -jar target/bea-demo-0.0.1-SNAPSHOT.jar
+java -XX:SharedArchiveFile=app.jsa -jar target/demo-0.0.1-SNAPSHOT.jar
 ```
 
 **Aceite:** o startup com `app.jsa` é mensuravelmente mais rápido (anote os dois tempos).
@@ -180,7 +180,7 @@ Compile native:
 
 ```bash
 ./mvnw -Pnative native:compile
-./target/bea-demo
+./target/demo
 ```
 
 **Aceite:** binário roda. Compare startup com o jar normal. (Spoiler: 10x+ mais rápido.)

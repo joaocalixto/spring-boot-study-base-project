@@ -1,12 +1,12 @@
 {
   "Servers": {
     "1": {
-      "Name": "bea-postgres (local)",
+      "Name": "demo-postgres (local)",
       "Group": "Aula Spring Boot 4",
       "Host": "postgres",
       "Port": 5432,
-      "MaintenanceDB": "beademo",
-      "Username": "bea",
+      "MaintenanceDB": "demo",
+      "Username": "demo",
       "PassFile": "/pgpass",
       "SSLMode": "prefer"
     }

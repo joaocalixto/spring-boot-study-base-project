@@ -15,7 +15,7 @@ public class HttpClientsConfig {
         RestClient client = builder
                 .baseUrl("https://api.github.com")
                 .defaultHeader("Accept", "application/vnd.github+json")
-                .defaultHeader("User-Agent", "bea-demo")
+                .defaultHeader("User-Agent", "demo")
                 .build();
 
         return HttpServiceProxyFactory
