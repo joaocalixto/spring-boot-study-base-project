@@ -8,7 +8,7 @@ Lista progressiva. Cada exercício tem critério de aceitação claro. Faça na 
 
 ### 1.1. Subir o projeto
 
-- Clone/rode a pasta `codigo/`
+- Clone o repositório e suba o banco: `docker compose up -d postgres`
 - Execute `./mvnw spring-boot:run`
 - Acesse `http://localhost:8080/actuator/health`
 
@@ -53,7 +53,7 @@ spring:
 
 ### 2.3. Versão obrigatória
 
-Configure `required: true` e `default-version: null`. O que acontece se o cliente não passar o header? Capture o erro e devolva `400 Bad Request` com mensagem em português.
+Configure `required: true` e remova a linha `default`. O que acontece se o cliente não passar o header? Capture o erro e devolva `400 Bad Request` com mensagem em português.
 
 ---
 

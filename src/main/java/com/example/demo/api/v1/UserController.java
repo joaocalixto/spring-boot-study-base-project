@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}", version = "2")
     public ResponseEntity<UserV2> getV2(@PathVariable Long id) {
-        User user = service.findById(id);
-        return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(service.toV2(user));
+        UserV2 user = service.findV2ById(id);
+        return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
     }
 }

@@ -3,52 +3,41 @@ package com.example.demo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest
+@AutoConfigureMockMvc
+@Import(TestcontainersConfig.class)
 class UserControllerTest {
 
-    @LocalServerPort
-    int port;
-
     @Autowired
-    WebTestClient webTestClient;
+    MockMvc mvc;
 
     @Test
-    void retornaV1QuandoNaoHaHeader() {
-        webTestClient.get()
-                .uri("/api/users/1")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody()
-                .jsonPath("$.name").isEqualTo("Maria Lima");
+    void retornaV1QuandoNaoHaHeader() throws Exception {
+        mvc.perform(get("/api/users/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Maria Lima"));
     }
 
     @Test
-    void retornaV2ComHeader() {
-        webTestClient.get()
-                .uri("/api/users/1")
-                .header("X-API-Version", "2")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody()
-                .jsonPath("$.firstName").isEqualTo("Maria")
-                .jsonPath("$.lastName").isEqualTo("Lima")
-                .jsonPath("$.avatarUrl").exists();
+    void retornaV2ComHeader() throws Exception {
+        mvc.perform(get("/api/users/1").header("X-API-Version", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value("Maria"))
+                .andExpect(jsonPath("$.lastName").value("Lima"))
+                .andExpect(jsonPath("$.avatarUrl").exists());
     }
 
     @Test
-    void retorna404QuandoNaoExiste() {
-        webTestClient.get()
-                .uri("/api/users/999")
-                .exchange()
-                .expectStatus().isNotFound();
+    void retorna404QuandoNaoExiste() throws Exception {
+        mvc.perform(get("/api/users/999"))
+                .andExpect(status().isNotFound());
     }
 }

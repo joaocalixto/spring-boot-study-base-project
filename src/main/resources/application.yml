@@ -7,14 +7,33 @@ spring:
     virtual:
       enabled: true
 
+  # Conexão com o Postgres do docker-compose (porta 5433 no seu computador).
+  # Dá para trocar por variáveis de ambiente sem mexer no arquivo.
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/demo}
+    username: ${DB_USER:demo}
+    password: ${DB_PASSWORD:demo123}
+
+  jpa:
+    # Quem cria e altera tabelas é o Liquibase.
+    # O Hibernate só CONFERE se as entidades batem com o banco (e falha se não baterem).
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    # Changesets marcados com context "dev" (dados de exemplo) só rodam quando "dev" está ligado.
+    contexts: ${LIQUIBASE_CONTEXTS:dev}
+
   # API Versioning nativo
   mvc:
     apiversion:
       use:
         header: X-API-Version
       required: false
-      default-version: "1"
-      supported-versions:
+      default: "1"          # versão usada quando o cliente não manda o header
+      supported:
         - "1"
         - "2"
 
@@ -44,7 +63,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus,threaddump
+        include: health,info,metrics,prometheus,threaddump,liquibase
   endpoint:
     health:
       show-details: always
