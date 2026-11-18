@@ -1,4 +1,4 @@
-# bea-demo — Spring Boot 4 demo
+# Spring Boot 4 demo
 
 Projeto exemplo da aula. Demonstra:
 
