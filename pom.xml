@@ -51,6 +51,15 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- DevTools: reinicia a aplicação sozinho quando o código é recompilado.
+             Só vale em desenvolvimento: fica fora do jar final e se desliga com java -jar. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
         <!-- Banco de dados: JPA + driver do Postgres -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
