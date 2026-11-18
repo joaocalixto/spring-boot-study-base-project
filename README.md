@@ -118,4 +118,5 @@ docker compose up -d jaeger
 - [docs/01-tutorial.md](docs/01-tutorial.md) — tutorial Spring Boot 4
 - [docs/02-exercicios.md](docs/02-exercicios.md) — exercícios
 - [docs/liquibase-boas-praticas.md](docs/liquibase-boas-praticas.md) — Liquibase: como funciona, boas práticas e comandos
+- [docs/devtools.md](docs/devtools.md) — DevTools: reinício automático no IntelliJ e no terminal
 - [docs/tarefa-account.md](docs/tarefa-account.md) — **tarefa: criar a entidade Account**
