@@ -1,4 +1,4 @@
-package com.example.demo.api.v1;
+package com.example.demo.controller;
 
 import com.example.demo.model.User;
 import com.example.demo.model.UserV2;

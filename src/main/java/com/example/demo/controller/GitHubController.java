@@ -1,4 +1,4 @@
-package com.example.demo.api.v1;
+package com.example.demo.controller;
 
 import com.example.demo.client.GitHubClient;
 import org.springframework.web.bind.annotation.GetMapping;
